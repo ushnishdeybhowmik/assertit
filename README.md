@@ -6,6 +6,6 @@
 
 ### About Me
 
-My name is Ushnish Dey Bhowmik. I am a student of Ajeenkya DY Patil University. Coding has been passion since when I was 14. I enjoy the long and strenous hours working behind the screen, racking my brain to solve an issue or to fix my code in general. The sense of pleasure at the end of any problem solving journey is quite rewarding. I look forward to working for a company where I could bring out my full potential and at the same time enjoy my journey throughout.
+My name is Ushnish Dey Bhowmik. I am a student of Ajeenkya DY Patil University. Coding has been my passion since when I was 14. I enjoy the long and strenous hours working behind the screen, racking my brain to solve an issue or to fix my code in general. The sense of pleasure at the end of any problem solving journey is quite rewarding. I look forward to working for a company where I could bring out my full potential and at the same time enjoy my journey throughout.
 
 - **LinkedIn :** [Ushnish Dey Bhowmik](https://www.linkedin.com/in/ushnish-dey-bhowmik-29b333203/)
