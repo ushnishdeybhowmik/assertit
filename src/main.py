@@ -1,31 +1,4 @@
-# import json
-
-# data = {
-#     "new_york" : [
-#         {"name" : "10XLarge", "cost" : 2820},
-#         {"name" : "8XLarge", "cost" : 1400},
-#         {"name" : "4XLarge", "cost" : 774},
-#         {"name" : "2XLarge", "cost" : 450},
-#         {"name" : "XLarge", "cost" : 230},
-#         {"name" : "Large", "cost" : 120}
-#     ],
-#     "india" : [
-#         {"name" : "10XLarge", "cost" : 2970},
-#         {"name" : "8XLarge", "cost" : 1300},
-#         {"name" : "4XLarge", "cost" : 890},
-#         {"name" : "2XLarge", "cost" : 413},
-#         {"name" : "Large", "cost" : 140}
-#     ],
-#     "china" : [
-#         {"name" : "8XLarge", "cost" : 1180},
-#         {"name" : "4XLarge", "cost" : 670},
-#         {"name" : "XLarge", "cost" : 200},
-#         {"name" : "Large", "cost" : 110}
-#     ]
-
-# }
-
-
+import json
 
 new_york = {
     "10XLarge" : 2820,
@@ -61,22 +34,36 @@ capacity = {
     }
 
 region = [new_york, india, china]
+locations = ['New York', 'India', 'China']
 
-hours = input("Enter no. of hours\n")
+user_input = (str)(input("\n"))
+data = [int(s) for s in user_input.split() if s.isdigit()]
 
-units = (int)(input("Enter required units\n"))
+hours = 0
+units = 0
+
+for d in data:
+    if(data.index(d)==0):
+        units = d
+    else:
+        hours = d
+
+output = []
 
 for reg in region:
 
-    print(region.index(reg))
-
     machine_combinations = [] #Lists different sets of machines that could work for the given input.
+    machines = []
+    for i in reg.keys(): #Creates a list of machines available for each region.
+        machines.append(i)
 
-    machines = reg.keys() #Creates a list of machines available for each region.
     equipment_cost = []
     for i in reg.values():
         equipment_cost.append(i)
-    capacity_levels = []
+    
+    capacity_levels = [] #Outer scope set for machine capacities
+    machine_set = [] #Outer scope set to extract machine combination for each region.
+    cost_table=[] #Outer scope set to extract costings of each combination for each region
 
     for machine in machines:
 
@@ -88,7 +75,7 @@ for reg in region:
         combination = []
         for cap in capacity_levels[capacity_levels.index(level)::]: #Nested iteration to list out different combinations of machines
             if(units < cap): #Checks if current unit requirement is less than machine capacity. 
-                continue
+                combination.append(0)
             else:
                 count = (int)(units_copy/cap) #Stores the floor quotient (or the number of machines required from the current capacity iteration.)
 
@@ -97,6 +84,7 @@ for reg in region:
                 combination.append(count) #Appends machine count to combination set.
         units_copy = units
         machine_combinations.append(combination) #Appends all combinations of a particular region.
+        machine_set.append(combination) #Appends to global set.
     costing = []
     for combination in machine_combinations: #Iterates over different sets.
         equipment_cost2 = equipment_cost[machine_combinations.index(combination)::] #Slices the cost list so as to match with the combination length
@@ -104,8 +92,35 @@ for reg in region:
         x = 0 #iterator variable
         for count in combination: #Iterates over each machine count.
                 cost = count*equipment_cost2[x] #Multiplies machine count with respective costs.
-                sum += cost #Aggregate sum of all machine cost thus giving cost of each combination.
+                sum += cost #Aggregate sum of all machine cost thus giving total cost of each combination.
                 x += 1
         costing.append(sum)
-    optimum_cost = min(costing)
-    print({region.index(reg) : optimum_cost})
+        cost_table.append(sum) #Appends to global set.
+    print(cost_table)
+    print(machine_set)
+    optimum_cost = min(costing) #Finds the least cost.
+    machine_cost = []
+    if optimum_cost in cost_table:
+        optimum_set = machine_set[cost_table.index(optimum_cost)] #Finds the combination with the optimum_cost.
+        for combinations in machine_set:
+            x = 0
+            machines2 = machines[machine_set.index(combinations)::] #Slices machines list with each iteration
+            if (optimum_set == combinations): #Filters out unnecessary sets.
+                for i in combinations: #This if-else block appends a tuple of (machine_type, count) format as well as removes any null count.
+                    if(i != 0):
+                        machine_cost.append((machines2[x], i))
+                        x += 1
+                    else:
+                        x += 1
+                        continue
+    optimum_cost = hours*(int)(optimum_cost)
+    output.append({
+        "region" : locations[region.index(reg)],
+        "total_cost" : "$"+(str)(optimum_cost),        #Preparing output
+        "machines" : machine_cost
+    })
+final_output = {
+    "Output" : output                                  #Final output
+}            
+
+print(json.dumps(final_output, indent=2))
