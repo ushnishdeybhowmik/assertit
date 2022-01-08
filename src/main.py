@@ -1,5 +1,4 @@
 import json
-from typing import List
 
 new_york = {
     "10XLarge" : 2820,
@@ -139,6 +138,5 @@ for d in data:
         hours = d
    
 result = optimized_cost_output(units, hours, region_cost_table, locations, capacity)
-print(result)
-# outputJson(result)
+outputJson(result)
 
