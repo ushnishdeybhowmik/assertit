@@ -56,7 +56,7 @@ def outputJson(data):
 def optimized_cost_output(units, hours, region_cost_table, locations, capacity):
 
     output = []
-    if((units > 0) and (hours > 0)):
+    if(((units > 0) and (hours > 0)) and (units % 10 == 0)):
         for reg in region_cost_table:
 
             machine_combinations = [] #Lists different sets of machines that could work for the given input.
@@ -122,7 +122,11 @@ def optimized_cost_output(units, hours, region_cost_table, locations, capacity):
             output.append([locations[region_cost_table.index(reg)], "$"+(str)(optimum_cost), machine_cost])
         return output
     else:
-        err_msg = 'Enter positive and meaningful numeric data.'
+        err_msg = ''
+        if(not(units > 0 and hours > 0)):
+            err_msg = 'Enter positive and meaningful numeric data.'
+        else:
+            err_msg = 'Units should be in multiples of 10.'
         return err_msg
         
 user_input = (str)(input())
